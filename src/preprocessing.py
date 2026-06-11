@@ -18,11 +18,21 @@ Senior ML Engineer rewrite. Fixes:
 from dotenv import load_dotenv
 load_dotenv()
 
+
 class CFG:
-    CSV_PATH      = os.getenv("CSV_PATH",      "/kaggle/input/rsna-bone-age/boneage-training-dataset.csv")
-    IMAGE_DIR     = os.getenv("IMAGE_DIR",      "/kaggle/input/rsna-bone-age/boneage-training-dataset/")
-    PROCESSED_DIR = os.getenv("PROCESSED_DIR",  "/kaggle/working/processed_512")
-    # ... rest unchanged
+
+    CSV_PATH = (
+        "/kaggle/input/datasets/kmader/rsna-bone-age/"
+        "boneage-training-dataset.csv"
+    )
+
+    IMAGE_DIR = (
+        "/kaggle/input/datasets/kmader/rsna-bone-age/"
+        "boneage-training-dataset/boneage-training-dataset"
+    )
+
+    PROCESSED_DIR = "/kaggle/working/processed_512"
+
 
 import os
 import random
