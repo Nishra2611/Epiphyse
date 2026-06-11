@@ -1,6 +1,5 @@
 .venv/
-data/
-runs/
+
 checkpoints/
 .env
 
