@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply font-sans antialiased;
+    }
+}
+
+@layer components {
+    .card {
+        @apply bg-white rounded-xl shadow-medical border border-slate-100 p-6;
+    }
+
+    .btn-primary {
+        @apply px-4 py-2 bg-medical-primary text-white rounded-lg font-medium hover:bg-opacity-90 transition-all active:scale-95;
+    }
+
+    .btn-secondary {
+        @apply px-4 py-2 bg-white text-medical-primary border border-medical-primary rounded-lg font-medium hover:bg-medical-background transition-all active:scale-95;
+    }
+
+    .nav-item {
+        @apply flex items-center gap-3 px-4 py-3 text-medical-muted hover:text-medical-primary hover:bg-medical-background rounded-xl transition-all cursor-pointer;
+    }
+
+    .nav-item-active {
+        @apply flex items-center gap-3 px-4 py-3 text-medical-primary bg-medical-background rounded-xl font-semibold;
+    }
+}
