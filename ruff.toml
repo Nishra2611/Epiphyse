@@ -1,7 +1,8 @@
+exclude = ["notebooks/"]
+
 [lint]
 select = ["E", "F"]
-ignore = ["E501"]
+ignore = ["E501", "F601"]
 
 [format]
 quote-style = "double"
-

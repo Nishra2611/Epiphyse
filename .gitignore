@@ -1,11 +1,12 @@
 .venv/
-
+node_modules/
+Frontend/node_modules/
 checkpoints/
 .env
-
-__pycache__/
-*.pyc
 *.pth
+*.pt
+__pycache__/
+*.pycKOK
 *.npy
 
 .ipynb_checkpoints/
