@@ -3,7 +3,7 @@ import { GraduationCap, Linkedin, Github, Mail } from "lucide-react";
 import { PageTransition } from "@/components/PageTransition";
 import { Card } from "@/components/ui/card";
 import Naishaimp from "./profile/Naisha.jpeg";
-
+import mokshitaimp from "./profile/Naisha.jpeg";
 const members = [
   {
     name: "Naisha Gajkandh",
@@ -54,13 +54,13 @@ const members = [
       "Designed frontend development and UI refinement.",
       "Supported frontend-backend integration.",
       "Implemented image upload to test and prediction result interfaces."
-      
+
     ],
     initials: "MP",
-    image: "", // Add photo path here (e.g. "/assets/team/mokshita.jpg")
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:mokshita@example.com",
+    image: mokshitaimp, // Add photo path here (e.g. "/assets/team/mokshita.jpg")
+    linkedin: "https://www.linkedin.com/in/mokshita-pandit-4aaa0b317?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    github: "https://github.com/Mokshita4207",
+    email: "Mokshita4207@gmail.com",
   },
 ];
 
