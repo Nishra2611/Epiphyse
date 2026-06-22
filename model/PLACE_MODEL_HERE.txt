@@ -1,0 +1,4 @@
+Download final_model12.pth from the link
+"https://www.kaggle.com/models/naishagajkandh/bone-age-estimation-model"
+
+and put it here only in "model" folder

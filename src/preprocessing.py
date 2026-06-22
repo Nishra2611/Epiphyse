@@ -565,53 +565,54 @@ def split_dataset(
 # 13. PYTORCH DATASET
 # =============================================================================
 
+# =============================================================================
+# 13. PYTORCH DATASET
+# =============================================================================
 
 class BoneAgeDataset(Dataset):
-    """
-    Loads preprocessed .npy images from disk (not raw PNGs).
-    Applies transforms (augmentation + normalisation) on-the-fly.
-
-    Each __getitem__ returns:
-        image  : Tensor (3, 512, 512) — normalised
-        gender : Tensor scalar        — 0.0 (female) or 1.0 (male)
-        label  : Tensor scalar        — bone age in months, NORMALISED
-                                        use denormalise_label() to recover months
-    """
 
     def __init__(
         self,
         df: pd.DataFrame,
-        processed_dir: str,
         mode: str = "train",
     ):
         self.df = df.reset_index(drop=True)
-        self.processed_dir = processed_dir
         self.transform = get_transforms(mode)
 
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self.df)
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, idx):
+
         row = self.df.iloc[idx]
+
         img_id = int(row["id"])
 
-        # Load offline-preprocessed image (fast — no CLAHE/crop at runtime)
-        npy_path = os.path.join(self.processed_dir, f"{img_id}.npy")
-        img_arr = np.load(npy_path)  # (512, 512, 3) float32
+        # RAW IMAGE PATH
+        img_path = os.path.join(
+            CFG.IMAGE_DIR,
+            f"{img_id}.png"
+        )
 
-        # Convert to uint8 for PIL-based transforms
+        # FULL PREPROCESSING
+        img_arr = preprocess_image(img_path)
+
+        # FLOAT [0,1] -> UINT8 [0,255]
         img_u8 = (img_arr * 255).clip(0, 255).astype(np.uint8)
 
-        # Stage 7 + 8: augmentation + ImageNet normalisation
-        image = self.transform(img_u8)  # (3, 512, 512) float32 tensor
+        # TRANSFORMS
+        image = self.transform(img_u8)
 
-        # Stage 9: gender scalar
-        gender = torch.tensor(float(row["male"]), dtype=torch.float32)
+        # GENDER
+        gender = torch.tensor(
+            float(row["male"]),
+            dtype=torch.float32
+        )
 
-        # Normalised label (stabilises regression training)
+        # NORMALIZED LABEL
         label = torch.tensor(
             normalise_label(float(row["boneage"])),
-            dtype=torch.float32,
+            dtype=torch.float32
         )
 
         return image, gender, label
@@ -621,41 +622,46 @@ class BoneAgeDataset(Dataset):
 # 14. DATALOADER FACTORY
 # =============================================================================
 
-
 def build_dataloaders(
-    train_df: pd.DataFrame,
-    val_df: pd.DataFrame,
-    test_df: pd.DataFrame,
-    processed_dir: str,
-    batch_size: int = 16,
-    num_workers: int = 4,
-) -> tuple[DataLoader, DataLoader, DataLoader]:
-    """
-    Build all three DataLoaders.
+    train_df,
+    val_df,
+    test_df,
+    batch_size=8,
+    num_workers=2,
+):
 
-    batch_size=16 is conservative for 512×512.
-    For 224×224 you can use 32–64. Adjust based on your GPU VRAM.
-    Rule of thumb: double the resolution → quarter the batch size.
-    """
-    train_ds = BoneAgeDataset(train_df, processed_dir, mode="train")
-    val_ds = BoneAgeDataset(val_df, processed_dir, mode="val")
-    test_ds = BoneAgeDataset(test_df, processed_dir, mode="test")
+    train_ds = BoneAgeDataset(
+        train_df,
+        mode="train"
+    )
+
+    val_ds = BoneAgeDataset(
+        val_df,
+        mode="val"
+    )
+
+    test_ds = BoneAgeDataset(
+        test_df,
+        mode="test"
+    )
 
     train_loader = DataLoader(
         train_ds,
         batch_size=batch_size,
-        shuffle=True,  # shuffle training data every epoch
+        shuffle=True,
         num_workers=num_workers,
-        pin_memory=True,  # faster GPU transfer
-        drop_last=True,  # avoid incomplete final batch with batch norm
+        pin_memory=True,
+        drop_last=True,
     )
+
     val_loader = DataLoader(
         val_ds,
         batch_size=batch_size,
-        shuffle=False,  # never shuffle val/test
+        shuffle=False,
         num_workers=num_workers,
         pin_memory=True,
     )
+
     test_loader = DataLoader(
         test_ds,
         batch_size=batch_size,
@@ -665,59 +671,47 @@ def build_dataloaders(
     )
 
     log.info(
-        f"DataLoaders ready  "
-        f"train={len(train_ds)}  val={len(val_ds)}  test={len(test_ds)}"
+        f"DataLoaders ready | "
+        f"train={len(train_ds)} | "
+        f"val={len(val_ds)} | "
+        f"test={len(test_ds)}"
     )
 
     return train_loader, val_loader, test_loader
 
 
 # =============================================================================
-# 15. PIPELINE RUNNER — call this from train.py
+# 15. PIPELINE RUNNER
 # =============================================================================
 
-
 def run_preprocessing_pipeline(
-    csv_path: str,
-    image_dir: str,
-    processed_dir: str,
-    val_size: float = 0.10,
-    test_size: float = 0.10,
-    batch_size: int = 16,
-    num_workers: int = 4,
-    seed: int = 42,
-) -> tuple[DataLoader, DataLoader, DataLoader]:
-    """
-    Full pipeline entry point. Call once from train.py:
+    csv_path,
+    image_dir,
+    val_size=0.10,
+    test_size=0.10,
+    batch_size=8,
+    num_workers=2,
+    seed=42,
+):
 
-        train_loader, val_loader, test_loader = run_preprocessing_pipeline(
-            csv_path      = "data/train.csv",
-            image_dir     = "data/train",
-            processed_dir = "data/processed_512",
-        )
-
-    Returns three DataLoaders ready for training.
-    """
-    # 0. Seeds first — before any randomness happens
     set_seeds(seed)
 
-    # 1. Verify
-    df = verify_dataset(csv_path, image_dir)
-
-    # 2-6. Offline preprocessing (skips already-done images)
-    preprocess_and_save(df, image_dir, processed_dir)
-
-    # Stratified split
-    train_df, val_df, test_df = split_dataset(
-        df, val_size=val_size, test_size=test_size, seed=seed
+    df = verify_dataset(
+        csv_path,
+        image_dir
     )
 
-    # 7-9. DataLoaders (transforms + gender fusion)
+    train_df, val_df, test_df = split_dataset(
+        df,
+        val_size=val_size,
+        test_size=test_size,
+        seed=seed
+    )
+
     return build_dataloaders(
         train_df,
         val_df,
         test_df,
-        processed_dir=processed_dir,
         batch_size=batch_size,
         num_workers=num_workers,
     )

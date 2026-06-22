@@ -1,0 +1,4 @@
+Asset: hand-xray.png
+Source: Wikimedia Commons, "X-ray of the hand of a 5 year old male - dorsoplantar.jpg"
+URL: https://commons.wikimedia.org/wiki/File:X-ray_of_the_hand_of_a_5_year_old_male_-_dorsoplantar.jpg
+License status on Commons: Public domain.
