@@ -43,12 +43,4 @@ jobs:
         working-directory: ./Frontend
         run: npm run build
 
-  auto-approve:
-    needs: lint-and-test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Auto-approve PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr review --approve "${{ github.event.pull_request.html_url }}"
+  
