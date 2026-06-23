@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import Naishaimp from "./profile/Naisha.jpeg";
 import Nishthaimp from "./profile/Nishtha.jpeg";
 import mokshitaimp from "./profile/mokshita.jpeg";
-import Nishraimpo from "./profile/Nishra.jpeg"; 
 const members = [
   {
     name: "Naisha Gajkandh",
@@ -30,7 +29,7 @@ const members = [
       "Managed dataset verification, cleaning, and preprocessing optimization."
     ],
     initials: "NG",
-    image: Nishraimpo, // Add photo path here (e.g. "/assets/team/nishra.jpg")
+    image: "", // Add photo path here (e.g. "/assets/team/nishra.jpg")
     linkedin: "https://www.linkedin.com/in/nishra-gajkandh-707318370",
     github: "https://github.com/Nishra2611",
     email: "mailto:nishragajkandh@gmail.com",
