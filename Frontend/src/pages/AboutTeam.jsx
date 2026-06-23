@@ -60,7 +60,7 @@ const members = [
     image: mokshitaimp, // Add photo path here (e.g. "/assets/team/mokshita.jpg")
     linkedin: "https://www.linkedin.com/in/mokshita-pandit-4aaa0b317?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     github: "https://github.com/Mokshita4207",
-    email: "Mokshita4207@gmail.com",
+    email: "mailto:mokshita4207@gmail.com",
   },
 ];
 
