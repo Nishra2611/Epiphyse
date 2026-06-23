@@ -3,7 +3,9 @@ import { GraduationCap, Linkedin, Github, Mail } from "lucide-react";
 import { PageTransition } from "@/components/PageTransition";
 import { Card } from "@/components/ui/card";
 import Naishaimp from "./profile/Naisha.jpeg";
-import mokshitaimp from "./profile/Naisha.jpeg";
+import Nishthaimp from "./profile/Nishtha.jpeg";
+import mokshitaimp from "./profile/mokshita.jpeg";
+import Nishraimpo from "./profile/Nishra.jpeg"; 
 const members = [
   {
     name: "Naisha Gajkandh",
@@ -28,13 +30,13 @@ const members = [
       "Managed dataset verification, cleaning, and preprocessing optimization."
     ],
     initials: "NG",
-    image: "", // Add photo path here (e.g. "/assets/team/nishra.jpg")
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:nishra@example.com",
+    image: Nishraimpo, // Add photo path here (e.g. "/assets/team/nishra.jpg")
+    linkedin: "https://www.linkedin.com/in/nishra-gajkandh-707318370",
+    github: "https://github.com/Nishra2611",
+    email: "mailto:nishragajkandh@gmail.com",
   },
   {
-    name: "Nistha Patel",
+    name: "Nishtha Patel",
     role: "Tester & Frontend Developer",
     detail: [
       "Developed the frontend UI/UX for the web application.",
@@ -42,10 +44,10 @@ const members = [
       "Conducted functional testing and validated user workflows."
     ],
     initials: "NP",
-    image: "", // Add photo path here (e.g. "/assets/team/nistha.jpg")
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "mailto:nistha@example.com",
+    image: Nishthaimp, // Add photo path here (e.g. "/assets/team/nistha.jpg")
+    linkedin: "https://www.linkedin.com/in/nishtha-patel-664bb2359/",
+    github: "https://github.com/Nishtha074",
+    email: "mailto:nishthapatel074@gmail.com",
   },
   {
     name: "Mokshita Pandit",
