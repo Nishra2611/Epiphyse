@@ -4,6 +4,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { Card } from "@/components/ui/card";
 import Naishaimp from "./profile/Naisha.jpeg";
 import Nishthaimp from "./profile/Nishtha.jpeg";
+import Nishraimp from "./profile/Nishra.jpeg";
 import mokshitaimp from "./profile/mokshita.jpeg";
 const members = [
   {
@@ -29,7 +30,7 @@ const members = [
       "Managed dataset verification, cleaning, and preprocessing optimization."
     ],
     initials: "NG",
-    image: "", // Add photo path here (e.g. "/assets/team/nishra.jpg")
+    image: Nishraimp, // Add photo path here (e.g. "/assets/team/nishra.jpg")
     linkedin: "https://www.linkedin.com/in/nishra-gajkandh-707318370",
     github: "https://github.com/Nishra2611",
     email: "mailto:nishragajkandh@gmail.com",
